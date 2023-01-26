@@ -103,3 +103,4 @@ unsigned int SocketAdam::sizeConfigSock() const {
     return sizeof(socketConfig);
 }
 
+//EVA00_ORIGIN_H
