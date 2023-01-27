@@ -17,7 +17,8 @@ int main() {
     res = iencli.connectClient();
     res == SOCKET_ERROR ? std::cout << "ERROR !!!\n" << WSAGetLastError() << std::endl : std::cout << "Successfully connected client to remote server\n";
     std::cout << "Trying communications \n";
-    iencli.sendMessage("1st mess..");
+    res = iencli.sendMessage("test");
+//    res == SOCKET_ERROR ? std::cout << "Error send: " << WSAGetLastError() << std::endl : std::cout << "Sent message :)\n";
     std::cout << server.receiveMessage();
     return 0;
 }
