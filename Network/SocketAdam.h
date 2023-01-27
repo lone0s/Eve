@@ -39,7 +39,7 @@ class SocketAdam {
 
         SOCKET getSock() const;
 
-        const sockaddr_in &getSocketConfig() const;
+        sockaddr_in* getSocketConfig();
 
         unsigned int sizeConfigSock() const;
 };

@@ -7,7 +7,7 @@
 
 int Network_Client::Client::connectClient() {
     std::cout << "Connecting to remote server..\n";
-    return connect(getSock(), (SOCKADDR*) &getSocketConfig(), sizeConfigSock());
+    return connect(getSock(), (SOCKADDR*) getSocketConfig(), sizeConfigSock());
 }
 
 int Network_Client::Client::resolveServer(const std::string &ipAddr, size_t port) {

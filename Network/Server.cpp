@@ -10,8 +10,8 @@ using namespace Network_Server;
 int Server::bindServer() {
     std::cout << "Binding..\n";
     std::cout << "Sizeof : " << sizeConfigSock() << std::endl;
-    std::cout << ""
-    return bind(getSock(), (SOCKADDR *) &getSocketConfig(), sizeConfigSock());
+    std::cout << "Sock config inn : " << getSocketConfig() << std::endl;
+    return bind(getSock(), (SOCKADDR *) getSocketConfig(), sizeConfigSock());
 }
 
 int Server::listenServer() {

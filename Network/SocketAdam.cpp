@@ -56,8 +56,8 @@ SOCKET SocketAdam::getSock() const {
     return sock;
 }
 
-const sockaddr_in &SocketAdam::getSocketConfig() const {
-    return socketConfig;
+sockaddr_in* SocketAdam::getSocketConfig() {
+    return &socketConfig;
 }
 
 unsigned int SocketAdam::sizeConfigSock() const {
