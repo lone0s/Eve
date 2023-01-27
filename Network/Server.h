@@ -7,14 +7,16 @@
 #include "SocketAdam.h"
 
 
-namespace Network {
+namespace Network_Server {
     class Server : public SocketAdam {
         SOCKET connection;
         public:
             int bindServer();
             int listenServer();
             void acceptConnection();
-            Server(const std::string& ipAddr, size_t port) : SocketAdam(ipAddr, port), connection(INVALID_SOCKET) {};
+            Server(const std::string& ipAddr, size_t port) : SocketAdam(ipAddr, port), connection(INVALID_SOCKET) {
+                std::cout << "Created new Server "<< ipAddr << ":" << port << " ^-^\n";
+            };
     };
 }
 

@@ -14,14 +14,18 @@
 
 
 #include <ws2tcpip.h>
+#include <iostream>
 #include "SocketAdam.h"
 
-namespace Network {
+namespace Network_Client {
     class Client : public SocketAdam {
         addrinfo serverInfo;
         int resolveServer(const std::string& ipAddr, size_t port);
     public:
-        Client(const std::string& ipAddr, size_t port) : SocketAdam(ipAddr, port) { resolveServer(ipAddr, port); };
+        Client(const std::string& ipAddr, size_t port) : SocketAdam(ipAddr, port)
+        {
+            std::cout << "Created new client socket for " << ipAddr << ":" << port << " server ^-^\n";
+        };
         int connectClient();
     };
 }
