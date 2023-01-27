@@ -16,9 +16,10 @@ int main() {
     res == SOCKET_ERROR ? std::cout << "Error listening: " << WSAGetLastError() << std::endl : std::cout << "Successfully listening\n";
     res = iencli.connectClient();
     res == SOCKET_ERROR ? std::cout << "ERROR !!!\n" << WSAGetLastError() << std::endl : std::cout << "Successfully connected client to remote server\n";
+    server.acceptConnection();
     std::cout << "Trying communications \n";
-    res = iencli.sendMessage("test");
-//    res == SOCKET_ERROR ? std::cout << "Error send: " << WSAGetLastError() << std::endl : std::cout << "Sent message :)\n";
-    std::cout << server.receiveMessage();
+    res = iencli.sendMessage("Test, 1st communication <3\n");
+    res == SOCKET_ERROR ? std::cout << "Error send: " << WSAGetLastError() << std::endl : std::cout << "Sent message :)\n";
+    std::cout << server.readCommunications();
     return 0;
 }

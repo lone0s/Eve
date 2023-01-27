@@ -64,3 +64,11 @@ unsigned int SocketAdam::sizeConfigSock() const {
     return sizeof(socketConfig);
 }
 
+void SocketAdam::setCommunications(SOCKET communications) {
+    SocketAdam::communications = communications;
+}
+
+SOCKET SocketAdam::getCommunications() const {
+    return communications;
+}
+

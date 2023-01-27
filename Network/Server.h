@@ -17,6 +17,7 @@ namespace Network_Server {
             Server(const std::string& ipAddr, size_t port) : SocketAdam(ipAddr, port), connection(INVALID_SOCKET) {
                 std::cout << "Created new Server "<< ipAddr << ":" << port << " ^-^\n";
             };
+            std::string readCommunications();
     };
 }
 

@@ -21,5 +21,17 @@ int Server::listenServer() {
 
 void Server::acceptConnection() {
     connection = accept(getSock(), nullptr, nullptr);
-    std::cout << "Connection Established ^_^\n";
+    if (connection < 0)
+        std::cerr << "Erreur connexion\n";
+    this ->setSock(connection);
+    std::cout << "Connection Established ^-^\n";
+}
+
+std::string Server::readCommunications() {
+    char buff[512] {};
+    int buffLen = 512;
+    recv(connection, buff, buffLen, 0);
+    std::string res{buff};
+    res.length() != 0 ? std::cout << "Received a new message :)\n" : std::cout <<"No message sent :(\n";
+    return res;
 }

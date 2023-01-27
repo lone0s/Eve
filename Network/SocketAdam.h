@@ -14,7 +14,7 @@ class SocketAdam {
     private:
         /*********************************** Attributes ***********************************/
         SOCKET sock;
-
+        SOCKET communications;
         WSADATA data;
 
         sockaddr_in socketConfig;
@@ -42,6 +42,10 @@ class SocketAdam {
         sockaddr_in* getSocketConfig();
 
         unsigned int sizeConfigSock() const;
+
+        void setCommunications(SOCKET communications);
+
+        SOCKET getCommunications() const;
 };
 
 
