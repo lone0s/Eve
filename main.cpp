@@ -6,7 +6,7 @@ using namespace Network_Server;
 using namespace Network_Client;
 int main() {
     std::cout << " whoami?\n !root :((" << std::endl;
-    std::string ip = "127.0.0.1";
+    std::string ip = "192.168.1.92";
     size_t port = 8000;
     Server server(ip, port);
     Client iencli(ip,port);

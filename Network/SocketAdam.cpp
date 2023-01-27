@@ -2,10 +2,11 @@
 // Created by ohno on 1/27/2023.
 //
 
+#include <ws2tcpip.h>
 #include "SocketAdam.h"
 
 void SocketAdam::initSocket(const std::string &ipAddr, size_t port) {
-    int res = WSAStartup(getWinSockVersion(), &data);
+    int res = WSAStartup(MAKEWORD(2,2), &data);
     if (res != 0)
         throw std::runtime_error("Couldn't initConfig WSA(data)\n");
     sock = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
@@ -13,9 +14,9 @@ void SocketAdam::initSocket(const std::string &ipAddr, size_t port) {
         WSACleanup();
         throw std::runtime_error("Couldn't initConfig SOCKET\n");
     }
-    socketConfig.sin_family = AF_INET6;
-    socketConfig.sin_addr.s_addr = inet_addr(ipAddr.c_str());
-    socketConfig.sin_port = htons(port);
+    socketConfig.sin6_family = AF_INET6;
+    inet_pton(AF_INET6, ipAddr.c_str(), &socketConfig.sin6_addr);
+    socketConfig.sin6_port = htons(port);
 }
 
 WORD SocketAdam::getWinSockVersion() const {
@@ -24,7 +25,7 @@ WORD SocketAdam::getWinSockVersion() const {
     return temp.wVersion;
 }
 
-void SocketAdam::Close() const {
+void SocketAdam::Close() {
     closesocket(sock);
     WSACleanup();
 }
@@ -34,7 +35,7 @@ int SocketAdam::sendMessage(const std::string &message) const {
 }
 
 std::string SocketAdam::receiveMessage() const {
-    char* buff;
+    char buff[1024];
     int buffLen;
     recv(sock, buff, buffLen, MSG_OOB);
     return std::string{buff};
@@ -48,7 +49,7 @@ void SocketAdam::setData(const WSADATA &data) {
     SocketAdam::data = data;
 }
 
-void SocketAdam::setSocketConfig(const sockaddr_in &socketConfig) {
+void SocketAdam::setSocketConfig(const sockaddr_in6 &socketConfig) {
     SocketAdam::socketConfig = socketConfig;
 }
 
@@ -56,7 +57,7 @@ SOCKET SocketAdam::getSock() const {
     return sock;
 }
 
-sockaddr_in* SocketAdam::getSocketConfig() {
+sockaddr_in6* SocketAdam::getSocketConfig() {
     return &socketConfig;
 }
 

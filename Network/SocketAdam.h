@@ -7,6 +7,7 @@
 # pragma once
 
 #include <winsock2.h>
+#include <ws2ipdef.h>
 #include <stdexcept>
 
 class SocketAdam {
@@ -17,7 +18,7 @@ class SocketAdam {
 
         WSADATA data;
 
-        sockaddr_in socketConfig;
+        sockaddr_in6 socketConfig;
         /************************************ Methods ************************************/
         void initSocket(const std::string &ipAddr, size_t port);
 
@@ -29,17 +30,17 @@ class SocketAdam {
 
         std::string receiveMessage() const;
 
-        void Close() const;
+        void Close();
 
         void setSock(SOCKET sock);
 
         void setData(const WSADATA &data);
 
-        void setSocketConfig(const sockaddr_in &socketConfig);
+        void setSocketConfig(const sockaddr_in6 &socketConfig);
 
         SOCKET getSock() const;
 
-        sockaddr_in* getSocketConfig();
+        sockaddr_in6* getSocketConfig();
 
         unsigned int sizeConfigSock() const;
 };
