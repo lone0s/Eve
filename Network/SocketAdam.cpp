@@ -31,12 +31,12 @@ void SocketAdam::Close() {
 }
 
 int SocketAdam::sendMessage(const std::string &message) const {
-    return send(sock, message.c_str(), message.size(), MSG_OOB);
+    return send(sock, message.c_str(), message.size(), 0);
 }
 
 std::string SocketAdam::receiveMessage() const {
     char buff[1024];
-    int buffLen;
+    int buffLen = 1024;
     recv(sock, buff, buffLen, MSG_OOB);
     return std::string{buff};
 }

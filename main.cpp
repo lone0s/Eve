@@ -6,7 +6,7 @@ using namespace Network_Server;
 using namespace Network_Client;
 int main() {
     std::cout << " whoami?\n !root :((" << std::endl;
-    std::string ip = "192.168.1.92";
+    std::string ip = "::1";
     size_t port = 8000;
     Server server(ip, port);
     Client iencli(ip,port);
@@ -17,7 +17,7 @@ int main() {
     res = iencli.connectClient();
     res == SOCKET_ERROR ? std::cout << "ERROR !!!\n" << WSAGetLastError() << std::endl : std::cout << "Successfully connected client to remote server\n";
     std::cout << "Trying communications \n";
-    iencli.sendMessage("1st mess..");
+    iencli.sendMessage("1st mess test..");
     std::cout << server.receiveMessage();
     return 0;
 }
