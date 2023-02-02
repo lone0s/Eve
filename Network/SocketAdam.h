@@ -14,7 +14,6 @@ class SocketAdam {
     private:
         /*********************************** Attributes ***********************************/
         SOCKET sock;
-        SOCKET communications;
         WSADATA data;
 
         sockaddr_in socketConfig;
