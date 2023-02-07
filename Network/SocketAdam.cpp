@@ -11,7 +11,7 @@ void SocketAdam::initSocket(const std::string &ipAddr, size_t port) {
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock == INVALID_SOCKET){
         WSACleanup();
-        throw std::runtime_error("Couldn't initConfig SOCKET\n");
+        throw std::runtime_error("Couldn't init config SOCKET\n");
     }
     socketConfig.sin_family = AF_INET;
     socketConfig.sin_addr.s_addr = inet_addr(ipAddr.c_str());
@@ -63,6 +63,7 @@ sockaddr_in* SocketAdam::getSocketConfig() {
 unsigned int SocketAdam::sizeConfigSock() const {
     return sizeof(socketConfig);
 }
+/*
 
 void SocketAdam::setCommunications(SOCKET communications) {
     SocketAdam::communications = communications;
@@ -71,4 +72,5 @@ void SocketAdam::setCommunications(SOCKET communications) {
 SOCKET SocketAdam::getCommunications() const {
     return communications;
 }
+*/
 

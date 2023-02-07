@@ -1,10 +1,9 @@
 //
 // Created by jeune on 02/02/2023.
 //
-
 #pragma once
+#include <cmath>
 
-#include <valarray>
 
 namespace Arithmetic {
     class GaloisField {
