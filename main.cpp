@@ -1,10 +1,12 @@
 #include <iostream>
 #include "Network/Server.h"
 #include "Network/Client.h"
+#include "Arithmetic/Point.h"
+#include "Arithmetic/EllipticCurve.h"
 
 using namespace Network_Server;
 using namespace Network_Client;
-int main() {
+int mainServer() {
     std::cout << " whoami?\n !root :((" << std::endl;
     std::string ip = "127.0.0.1";
     size_t port = 8000;
@@ -21,5 +23,14 @@ int main() {
     res = iencli.sendMessage("Hello world ya zebi\n");
     res == SOCKET_ERROR ? std::cout << "Error send: " << WSAGetLastError() << std::endl : std::cout << "Sent message :)\n";
     std::cout << server.readCommunications();
+    return 0;
+}
+
+int main() {
+    Point<unsigned long long> pt {5,11};
+    EllipticCurve ec(2,3,17);
+
+    Point<unsigned long long> res = ec.addition(pt,pt);
+    std::cout << "x: " << res.x << " y: " << res.y << "\n";
     return 0;
 }

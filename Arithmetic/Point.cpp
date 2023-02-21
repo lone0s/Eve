@@ -12,6 +12,7 @@
  *  done by finding the line that passes through P and Q,
  *  and then finding the third point where this line intersects the curve.
  */
+/*
 int Point::operator+(Point point) {
     // Determiner a & b tq
     // | p2.y = p2.x*a + b
@@ -20,3 +21,4 @@ int Point::operator+(Point point) {
     // p3.y <-- -y
     // return p3
 }
+*/

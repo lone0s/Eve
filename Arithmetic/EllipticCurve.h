@@ -6,6 +6,9 @@
 
 //Symétrie A(x,y) => B(x,-y)
 
+#include <cmath>
+#include "Point.h"
+
 /**
  *
  * TODO:
@@ -45,13 +48,30 @@
  *  this method verifies whether the signature is a valid signature for the message.
  *  If the signature is valid, the method returns true, otherwise it returns false.
  */
-template <long long A, long long B>
+//template <unsigned long long A, unsigned long long B>
 class EllipticCurve {
-    long long a;
-    long long b;
+    //y² === x^3 + Ax + B mod P
+    // Field = P ; Fp = {0,1,...,p-1}
+    // Need special point aka imaginary point == point soit sur +infini ou -infini
+    public:
+        unsigned long long A;
+        unsigned long long B;
+        unsigned long long P;
 
-    EllipticCurve() : a(A), b(B) {};
+        EllipticCurve(unsigned long long modulo,
+                      unsigned long long a,
+                      unsigned long long b)
+                      : A(a), B(b), P(modulo) {};
+
+        //Chord Method || Point doubling si P == Q
+    Point<unsigned long long> addition(const Point<unsigned long long> &P, const Point<unsigned long long> &Q);
+
+    //Point doubling ? <-- Use la tan d'un point puis symétrique par rapport a x pour récup
+
+    //NonSingular ECCs, have tangents defined for each points
+    bool isNonSingularECC() const {
+        return ((A < P && B < P) && (4*pow(A,3) + 27*pow(B,2) != 0));
+    }
 };
-
 
 //EVA01_ELLIPTICCURVE_H
