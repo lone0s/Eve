@@ -5,6 +5,8 @@
 //EVA01_MODULUS_H
 #pragma once
 
+#include <tuple>
+
 namespace Mod {
 
     template<typename T>

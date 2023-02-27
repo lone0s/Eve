@@ -4,28 +4,30 @@
 #pragma once
 #include <cmath>
 
+/**
+ * Galois Field Operations
+ */
 
-namespace Arithmetic {
-    class GaloisField {
-            int modulus;
+namespace GFO {
 
-        public:
-            GaloisField(int mod) : modulus(mod) {};
-            //4 operations : Addition ; Soustraction ; Multiplication ; Division
-            int addition(int a, int b) const {
-                return (a+b)%modulus;
-            };
-            int soustraction(int a, int b) const {
-                return ((a-b) + modulus)%modulus;
-            };
-            int multiplication(int a, int b) const {
-                return ((int)(((long long)a*b) % modulus));
-            };
-            int division (int a, int b) const {
-                int res = (int)pow(b, modulus - 2);
-                return multiplication(a,res);
-            }
+    //4 operations : Addition ; Soustraction ; Multiplication ; Division
+    template <typename T>
+    T add(T a, T b, T modulus) {
+        return (a + b) % modulus;
     };
+    template <typename T>
+    T soustraction(T a, T b, T modulus) {
+        return ((a - b) + modulus) % modulus;
+    };
+    template <typename T>
+    T multiplication(T a, T b, T modulus) {
+        return ((int) (((long long) a * b) % modulus));
+    };
+    template <typename T>
+    T division(T a, T b, T modulus) {
+        int res = (int) pow(b, modulus - 2);
+        return multiplication(a, res);
+    }
 }
 
 

@@ -6,7 +6,7 @@
 
 /*
  *TODO :
- *  1/ Point addition: Given two points P and Q on the curve,
+ *  1/ Point add: Given two points P and Q on the curve,
  *  this method calculates the third point R = P + Q such
  *  that P, Q, and R are collinear on the curve. This is
  *  done by finding the line that passes through P and Q,

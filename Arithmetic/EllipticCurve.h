@@ -7,7 +7,9 @@
 //Symétrie A(x,y) => B(x,-y)
 
 #include <cmath>
+#include <iostream>
 #include "Point.h"
+#include "Modulus.h"
 
 /**
  *
@@ -54,19 +56,33 @@ class EllipticCurve {
     // Field = P ; Fp = {0,1,...,p-1}
     // Need special point aka imaginary point == point soit sur +infini ou -infini
     public:
-        unsigned long long A;
-        unsigned long long B;
-        unsigned long long P;
+        long long A;
+        long long B;
+        long long P;
 
-        EllipticCurve(unsigned long long modulo,
-                      unsigned long long a,
-                      unsigned long long b)
+        EllipticCurve(long long modulo,
+                      long long a,
+                      long long b)
                       : A(a), B(b), P(modulo) {};
 
-        //Chord Method || Point doubling si P == Q
-    Point<unsigned long long> addition(const Point<unsigned long long> &P, const Point<unsigned long long> &Q);
-
     //Point doubling ? <-- Use la tan d'un point puis symétrique par rapport a x pour récup
+
+    //Chord Method || Point doubling si P == Q
+
+    Point<long long> addition(Point<long long> &p, Point<long long> &Q) {
+        long long m;
+        if (p == Q) {
+            m = Mod::qMod(p.y - Q.y,p.x - Q.x,this -> P );
+        }
+        else
+            m = Mod::qMod(3*(p.x * p.x) + this->A, 2 * p.y, this -> P);
+        std::cout << "m evaluated = " << m << std::endl;
+        //Probleme du modulo sur des fractions, on doit remplacer par un inverse <-- Fixed
+        // | m = (yP - yQ)(xP-xQ)^-1 mod p
+        // | m = (3xP² + A)*(2yP)^-1 mod p
+        long long resX = ((m*m) - p.x - Q.x) % this -> P;
+        return Point<long long>{resX, (p.y + m * (resX - p.x)) % this -> P};
+    };
 
     //NonSingular ECCs, have tangents defined for each points
     bool isNonSingularECC() const {
