@@ -16,7 +16,7 @@
  * 4) Encrypt Message :
  */
 
-class ECIH {
+class EllipticCurveEnc {
     
 };
 
