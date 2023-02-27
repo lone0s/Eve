@@ -9,26 +9,10 @@
 
 namespace Mod {
 
-    template<typename T>
-    T pgcd(const T a, T b) {
-        if (a == 0)
-            return b;
-        return pgcd(b%a, a);
-    }
-
-
     /**
      * @brief Theoreme du PGCD étendu avec ax + by = pgcd(a,b)
      * @return std::tuple tel que get(0) = mod ; get(1) = x ; get(2) = y
      */
-    template<typename T>
-    std::tuple<T,T,T> pgcdEtendu(T a, T b) {
-        if (a == 0)
-            return std::tuple<T,T,T> {b,0,1};
-        std::tuple<T,T,T> temp = pgcdEtendu(b%a, a);
-        std::tuple<T,T,T> res {pgcd(a,b), std::get<2>(temp) - (b/a) * std::get<1>(temp), std::get<1>(temp)};
-        return res;
-    }
 
     template<typename T>
     std::tuple<T,T,T> xPgcd(T a, T b) {
@@ -37,7 +21,7 @@ namespace Mod {
         T temp,q,xx,yy ;
         int sign = 1;
         while (b != 0) {
-            temp = a % b;
+            temp = fmod(a,b);
             q = a/b;
             a = b;
             b = temp;
@@ -53,25 +37,16 @@ namespace Mod {
     }
 
     template <typename T>
-    T qMod(T dividende, T diviseur, T mod) {
+    T qMod(T num, T denom, T mod) {
         T pgcd, x, y;
-        std::tie(pgcd, x, y) = xPgcd(dividende,mod);
-        if (diviseur % pgcd != 0)
-            return -1;
+        std::tie(pgcd, x, y) = xPgcd(denom, mod);
+        if (fmod(num, pgcd) != 0)
+            return T(-1);
         else {
-            x = x * (diviseur / pgcd) % (mod / pgcd);
+            x = x * fmod((num / pgcd), (mod / pgcd));
             x < 0 ? x += mod/pgcd : x ;
             return x;
         }
-    }
-
-    template<typename T>
-    //Besoin de récuperer le X du
-    T fractionMod(T b, T n) {
-        std::tuple<T,T,T> res = pgcdEtendu(b,n);
-        if (std::get<0>(res) == 1)
-            return std::get<1>(res);
-        return -1;
     }
 
 }

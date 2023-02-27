@@ -26,11 +26,21 @@ int mainServer() {
 }
 
 int main() {
-    EllipticCurve ECC (7, 3, 4);
-    Point<long long> P {1,1};
-    Point<long long> Q {2,5};
-//    Point<long long> res = ECC.addition(*new Point<long long>{2,2}, *new Point<long long>{2,2});
-    Point<long long> res = ECC.addition(P, Q);
-    std::cout << "Attendu: [6,0] | Recu : [" << res.x << "," << res.y << "]\n";
+    EllipticCurve<int> ECC (7, 3, 4);
+    Point<int> P {1,1};
+    Point<int> Q {2,5};
+    Point<int> res1 = ECC.addition(P, Q);
+    std::cout << "Attendu: [6,0] | Recu : [" << res1.x << "," << res1.y << "]\n";
+    Point<int> X {2,2};
+    X = ECC.addition(X,X);
+    std::cout << "Attendu: [0,2] | Recu : [" << X.x << "," << X.y << "]\n";
+    EllipticCurve<int64_t> ECCBis (17,2,3);
+    Point<int64_t> R {5,11};
+    Point<int64_t> res = ECCBis.addition(R, R);
+    std::cout << "Attendu: [15,5] | Recu : [" << res.x << "," << res.y << "]\n";
+
+    std::cout << "A: 10 | R : " << ECC.numberOfPoints() << "\n";
+
     return 0;
+
 }

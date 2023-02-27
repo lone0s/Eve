@@ -1,7 +1,7 @@
 //
 // Created by jeune on 07/02/2023.
 //
-
+#pragma once
 // y² = x^3 + ax + b
 
 //Symétrie A(x,y) => B(x,-y)
@@ -51,43 +51,84 @@
  *  If the signature is valid, the method returns true, otherwise it returns false.
  */
 //template <unsigned long long A, unsigned long long B>
+template<typename T>
 class EllipticCurve {
     //y² === x^3 + Ax + B mod P
     // Field = P ; Fp = {0,1,...,p-1}
     // Need special point aka imaginary point == point soit sur +infini ou -infini
     public:
-        long long A;
-        long long B;
-        long long P;
+        T A;
+        T B;
+        T P;
 
-        EllipticCurve(long long modulo,
-                      long long a,
-                      long long b)
+    EllipticCurve(T modulo,
+                      T a,
+                      T b)
                       : A(a), B(b), P(modulo) {};
 
     //Point doubling ? <-- Use la tan d'un point puis symétrique par rapport a x pour récup
 
     //Chord Method || Point doubling si P == Q
 
-    Point<long long> addition(Point<long long> &p, Point<long long> &Q) {
-        long long m;
-        if (p == Q) {
-            m = Mod::qMod(p.y - Q.y,p.x - Q.x,this -> P );
-        }
-        else
-            m = Mod::qMod(3*(p.x * p.x) + this->A, 2 * p.y, this -> P);
-        std::cout << "m evaluated = " << m << std::endl;
-        //Probleme du modulo sur des fractions, on doit remplacer par un inverse <-- Fixed
-        // | m = (yP - yQ)(xP-xQ)^-1 mod p
-        // | m = (3xP² + A)*(2yP)^-1 mod p
-        long long resX = ((m*m) - p.x - Q.x) % this -> P;
-        return Point<long long>{resX, (p.y + m * (resX - p.x)) % this -> P};
+    Point<T> addition(Point<T> &p, Point<T> &q) const {
+        T m = p != q ?
+                fmod((q.y - p.y),P) * Mod::qMod( T(1), (q.x - p.x), P) :
+                fmod(((3* p.x * p.x) + A) , P) * Mod::qMod(T(1), (2*p.y), P) ;
+        T resX = fmod(m*m - p.x - q.x , P);
+        T resY = fmod(m * (p.x - resX) - p.y , P);
+        while(resX < 0)
+            resX += P;
+        while(resY < 0)
+            resY += P;
+        return Point<T>{resX, resY};
     };
+
 
     //NonSingular ECCs, have tangents defined for each points
     bool isNonSingularECC() const {
         return ((A < P && B < P) && (4*pow(A,3) + 27*pow(B,2) != 0));
     }
+
+    /**
+     * @brief   Function to evaluate the number of existing points
+     *          on the elliptic curve using the Legendre Formula
+     * @return  blabla
+     */
+    T numberOfPoints() const {
+        T res = P + 1;
+        for (uint64_t i = 0; i < P; ++i) {
+            if (Mod::qMod(T(i), T(3), P) == T(1))
+                res++;
+        }
+        return ++res; // +1 for the point at infinity
+    }
+
+    //TODO: Function double and add
+
+
+    //Function to generate private key
+    T generatePrivateKey() const {
+        return rand() % P;
+    }
+
+
+
+    //TODO: Function to generate public key
+
+    //TODO: Function to generate signature
+
+    //TODO: Function to verify signature
+
+    //TODO: Function to compress point
+
+    //TODO: Function to decompress point
+
+    //TODO: Function to generate key pair
+
+    //TODO: Function to generate SEED
+
+    //TODO: Function to generate Nothing Up My Sleeve Number
+
 };
 
 //EVA01_ELLIPTICCURVE_H
