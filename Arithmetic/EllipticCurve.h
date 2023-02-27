@@ -56,15 +56,15 @@ class EllipticCurve {
     //y² === x^3 + Ax + B mod P
     // Field = P ; Fp = {0,1,...,p-1}
     // Need special point aka imaginary point == point soit sur +infini ou -infini
-    public:
         T A;
         T B;
         T P;
 
+        public:
     EllipticCurve(T modulo,
-                      T a,
-                      T b)
-                      : A(a), B(b), P(modulo) {};
+                  T a,
+                  T b)
+                  : A(a), B(b), P(modulo) {};
 
     //Point doubling ? <-- Use la tan d'un point puis symétrique par rapport a x pour récup
 
