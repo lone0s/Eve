@@ -34,6 +34,10 @@ int main() {
     std::cout << std::get<0>(res) << ";" ;
     std::cout << std::get<1>(res) << ";" ;
     std::cout << std::get<2>(res) << "]\n" ;
-    std::cout << "Attendu {13}, reçu {" << Mod::fractionMod(12,15) << "}\n";
+
+    std::tuple<int,int,int> test = Mod::xPgcd(100,35);
+    std::cout << "pgcd: " << std::get<0>(test) << " ; x= " << std::get<1>(test) << " ; y= " << std::get<2>(test) << std::endl;
+    std::cout << "--- 2/3 mod 7 ---\nAttendu : {5} ==>>>> Recu : {" << Mod::qMod(2,3,7) << "}\n";
+//    std::cout << "Attendu {13}, reçu {" << Mod::fractionMod(12,15) << "}\n";
     return 0;
 }
