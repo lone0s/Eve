@@ -103,6 +103,23 @@ class EllipticCurve {
         return ++res; // +1 for the point at infinity
     }
 
+    //TODO: Check weither point is on curve or not
+    bool pointIsOnCurve(Point<T>& P) {
+        T l = (P.y * P.y )% P;
+        T r = ((P.x * P.x * P.x) + (3 * A * P.x) + (B * P.x)) % P;
+        return l == r;
+    }
+
+    //TODO: Generate Infinity Point
+    Point<T> generateInfinityPoint() {
+        return Point<T>{0,0};
+    }
+
+    //TODO: Verify Point at Infinity
+    bool validPointAtInfinity() {
+        return isNonSingularECC();
+    }
+
     //TODO: Function double and add
 
 

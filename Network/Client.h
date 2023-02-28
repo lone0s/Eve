@@ -5,7 +5,7 @@
 #pragma once
 
 
-/*     Needed methods :
+/*   Needed methods :
  * - Create a socket (Socket constructor func) <-- Sys
  * - Connect to a given address (Socket Connect() func) <-- Sys
  * - Read data <-- Sys

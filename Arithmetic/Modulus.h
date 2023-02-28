@@ -50,3 +50,8 @@ namespace Mod {
     }
 
 }
+
+/*template <typename T>
+class ModWrapper {
+    friend T operator % ()
+};*/
