@@ -18,6 +18,9 @@ public:
         bool operator != (const Point& point) const {
             return (x != point.x || y != point.y);
         }
+        bool operator < (const Point& point) const {
+            return (x < point.x || (x == point.x && y < point.y));
+        }
 };
 
 

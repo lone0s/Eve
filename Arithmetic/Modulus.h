@@ -44,14 +44,24 @@ namespace Mod {
             return T(-1);
         else {
             x = x * fmod((num / pgcd), (mod / pgcd));
-            x < 0 ? x += mod/pgcd : x ;
+            while(x < 0)
+                x += mod;
             return x;
         }
     }
 
+    /**
+     * @brief evaluates Legendre symbol value given a value and a prime
+     * @tparam T
+     * @param a
+     * @param p
+     * @return
+     */
+
+    template<typename T>
+    T legendre(T a, T p) {
+        return qMod(a, (p-1)/2, p);
+    }
+
 }
 
-/*template <typename T>
-class ModWrapper {
-    friend T operator % ()
-};*/

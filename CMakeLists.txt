@@ -17,7 +17,7 @@ add_executable(Eva01
         Encryption/EllipticCurveEnc.h
         Arithmetic/Modulus.h
         Arithmetic/GaloisField.h
-        Arithmetic/EllipticCurve.cpp)
+        Arithmetic/EllipticCurve.cpp Arithmetic/utils.h Arithmetic/utils.h)
 
 if (WIN32)
     target_link_libraries(Eva01 wsock32 ws2_32)

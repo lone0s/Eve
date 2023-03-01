@@ -10,6 +10,7 @@
 #include <iostream>
 #include "Point.h"
 #include "Modulus.h"
+#include "utils.h"
 
 /**
  *
@@ -50,39 +51,30 @@
  *  this method verifies whether the signature is a valid signature for the message.
  *  If the signature is valid, the method returns true, otherwise it returns false.
  */
-//template <unsigned long long A, unsigned long long B>
+
 template<typename T>
 class EllipticCurve {
-    //y² === x^3 + Ax + B mod P
     // Field = P ; Fp = {0,1,...,p-1}
-    // Need special point aka imaginary point == point soit sur +infini ou -infini
         T A;
         T B;
         T P;
 
         public:
-    EllipticCurve(T modulo,
-                  T a,
-                  T b)
+    EllipticCurve(T a,
+                  T b,
+                  T modulo)
                   : A(a), B(b), P(modulo) {};
 
-    //Point doubling ? <-- Use la tan d'un point puis symétrique par rapport a x pour récup
-
-    //Chord Method || Point doubling si P == Q
+    ~EllipticCurve() = default;
 
     Point<T> addition(Point<T> &p, Point<T> &q) const {
         T m = p != q ?
                 fmod((q.y - p.y),P) * Mod::qMod( T(1), (q.x - p.x), P) :
                 fmod(((3* p.x * p.x) + A) , P) * Mod::qMod(T(1), (2*p.y), P) ;
-        T resX = fmod(m*m - p.x - q.x , P);
-        T resY = fmod(m * (p.x - resX) - p.y , P);
-        while(resX < 0)
-            resX += P;
-        while(resY < 0)
-            resY += P;
+        T resX = Mod::qMod(m*m - p.x - q.x ,T(1), P);
+        T resY = Mod::qMod(m * (p.x - resX) - p.y ,T(1), P);
         return Point<T>{resX, resY};
     };
-
 
     //NonSingular ECCs, have tangents defined for each points
     bool isNonSingularECC() const {
@@ -94,19 +86,19 @@ class EllipticCurve {
      *          on the elliptic curve using the Legendre Formula
      * @return  blabla
      */
-    T numberOfPoints() const {
+    T order() const {
         T res = P + 1;
-        for (uint64_t i = 0; i < P; ++i) {
-            if (Mod::qMod(T(i), T(3), P) == T(1))
+        for (T i = 0; i < P; ++i) {
+            if (Mod::legendre(i,P) == T(1))
                 res++;
         }
         return ++res; // +1 for the point at infinity
     }
 
     //TODO: Check weither point is on curve or not
-    bool pointIsOnCurve(Point<T>& P) {
-        T l = (P.y * P.y )% P;
-        T r = ((P.x * P.x * P.x) + (3 * A * P.x) + (B * P.x)) % P;
+    bool pointIsOnCurve(Point<T>& P) const {
+        T l = fmod(P.y * P.y , this -> P);
+        T r = fmod((P.x * P.x * P.x) + (T(3) * A * P.x) + (B * P.x) , this -> P);
         return l == r;
     }
 
@@ -115,36 +107,56 @@ class EllipticCurve {
         return Point<T>{0,0};
     }
 
+    uint64_t generatorPointOrder(Point<T> genPoint) {
+        uint64_t cpt = 0;
+        Point<T> temp = genPoint;
+        Point<T> copy = temp;
+        if(this->isNonSingularECC()) {
+            //TODO: CORRECT IT, THIS SHJIT FAULTY
+            while(temp.x != 0 && temp.y != 0) {
+                cpt++;
+                copy = addition(temp, temp);
+                temp = copy;
+            }
+        }
+        return cpt;
+    }
+
+    Point<T> generatorPoint() {
+        T max = P - T(1);
+        uint64_t cpt = 0;
+        uint64_t itMax = 10*max;
+        while(cpt < max) {
+            T x = Utils::rand<T>(0,max);
+            T yy = Mod::qMod<T>((x*x*x) + A*x + B, 1, P);
+            if(Mod::legendre<T>(yy, P) != 1) {
+                T y = Mod::qMod<T>(std::sqrt(yy),1,P);
+                return Point<T>{x,y};
+            }
+            cpt++;
+        }
+        throw std::runtime_error("No");
+    }
+
     //TODO: Verify Point at Infinity
     bool validPointAtInfinity() {
         return isNonSingularECC();
     }
 
     //TODO: Function double and add
-
-
-    //Function to generate private key
-    T generatePrivateKey() const {
-        return rand() % P;
-    }
-
-
-
-    //TODO: Function to generate public key
-
-    //TODO: Function to generate signature
-
-    //TODO: Function to verify signature
-
     //TODO: Function to compress point
-
     //TODO: Function to decompress point
 
+    //TODO: Function to generate public key
+    //TODO: Function to generate private key
     //TODO: Function to generate key pair
-
+    //TODO: Function to generate signature
+    //TODO: Function to verify signature
     //TODO: Function to generate SEED
+    //TODO: Function to generate Nothing Up My Sleeve Number (Maybe not?)
 
-    //TODO: Function to generate Nothing Up My Sleeve Number
+
+
 
 };
 
